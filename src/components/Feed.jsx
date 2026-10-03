@@ -1,13 +1,24 @@
-// Шаг ④ (пара 3). Лента должна приходить с сервера, а не из data/memes.js.
+// Шаг ④ — готово: лента приходит с сервера, сервер узнаёт вас по cookie и присылает liked.
 //
-// Feed теперь загружает мемы сам, props ему больше не нужны. Общий приём — на слайде «Загружаем ленту»,
-// а как правильно написать запрос к нашему серверу — подсказки 1, 2 и 6 в src/api.js.
-//
-// В ответе у каждого мема есть liked — лайкнули ли вы его раньше. Передайте его через MemeCard в LikeButton
-// как начальное состояние, чтобы после перезагрузки ваш лайк был виден сразу.
+// Шаг ⑤. Пользователь должен видеть, что происходит:
+//   - пока грузится — «Загружаем мемы…»
+//   - если ошибка — сообщение и кнопка «Повторить»
+//   - если мемов нет — «Мемов пока нет»
+// Тексты и вид сообщений — во фреймах ⑤ макета: spda.voisvet.space/design
+// Как поймать ошибку и сколько состояний завести — подсказки 2–5 в src/api.js.
+import { useEffect, useState } from 'react';
+import { API_URL } from '../api.js';
 import MemeCard from './MemeCard.jsx';
 
-export default function Feed({ memes }) {
+export default function Feed() {
+  const [memes, setMemes] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/memes`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then(setMemes);
+  }, []);
+
   return (
     <div className="feed">
       {memes.map((meme) => (
