@@ -8,7 +8,7 @@ export default function App() {
         <h1>Лента мемов</h1>
       </header>
       <main className="page">
-        {/* Шаг ①: доделайте MemeCard — здесь появится первый мем */}
+        {/* Шаг ②: здесь будет вся лента вместо одной карточки */}
         <MemeCard {...memes[0]} />
       </main>
     </>
