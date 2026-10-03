@@ -1,10 +1,18 @@
-// Шаг ③. Кнопка лайка.
-//
-// Получает props: id, initialLikes.
-// Клик ставит лайк (+1), повторный клик снимает (−1). Иконка: ♡ — лайка нет, ♥ — лайк поставлен.
-// В макете нажатая кнопка яркая: найдите в DevTools, какой атрибут кнопки за это отвечает, и ставьте его сами.
-// Потом используйте LikeButton в MemeCard вместо обычной кнопки.
+// Шаг ③ — готово. Лайк ставится и снимается.
+import { useState } from 'react';
 
-export default function LikeButton(props) {
-  return <button className="like">♡ {props.initialLikes}</button>;
+export default function LikeButton({ initialLikes }) {
+  const [likes, setLikes] = useState(initialLikes);
+  const [liked, setLiked] = useState(false);
+
+  function toggle() {
+    setLikes(liked ? likes - 1 : likes + 1);
+    setLiked(!liked);
+  }
+
+  return (
+    <button className="like" onClick={toggle} aria-pressed={liked}>
+      {liked ? '♥' : '♡'} {likes}
+    </button>
+  );
 }
